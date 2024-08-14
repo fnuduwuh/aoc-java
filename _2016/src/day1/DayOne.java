@@ -1,8 +1,8 @@
 package day1;
 
-import java.util.List;
-
 import utils.InputParser;
+
+import java.util.List;
 
 public class DayOne {
     public static void main(String[] args) {
@@ -12,8 +12,10 @@ public class DayOne {
             int steps = Integer.parseInt(input.substring(1));
             mover.changeDirection(input.split("")[0]);
             mover.move(steps);
+
         });
         System.out.println("Distance travelled: " + Math.abs(-mover.getX() + Math.abs(-mover.getY())));
+        System.out.println("Distance travelled to first twice visited: " + mover.getDistanceForFirstPointVisitedTwice());
     }
 
 }

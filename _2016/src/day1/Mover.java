@@ -1,13 +1,27 @@
 package day1;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Mover {
     private int y = 0;
     private int x = 0;
     private Direction direction = Direction.NORTH;
+    private final List<Point> visited = new ArrayList<>();
+    private Point firstVisitedTwice;
+
+
+    public int getDistanceForFirstPointVisitedTwice() {
+        int x = Double.valueOf(firstVisitedTwice.getX()).intValue();
+        int y = Double.valueOf(firstVisitedTwice.getY()).intValue();
+        return Math.abs(-x) + Math.abs(-y);
+    }
 
     public int getY() {
         return this.y;
     }
+
     public int getX() {
         return this.x;
     }
@@ -29,12 +43,18 @@ public class Mover {
             }
         }
     }
+
     public void move(int steps) {
-        switch (direction) {
-            case NORTH -> y -= steps;
-            case EAST -> x += steps;
-            case SOUTH -> y += steps;
-            case WEST -> x -= steps;
+        for (int i = 0; i < steps; i++) {
+            switch (direction) {
+                case NORTH -> y -= 1;
+                case EAST -> x += 1;
+                case SOUTH -> y += 1;
+                case WEST -> x -= 1;
+            }
+            Point point = new Point(this.x, this.y);
+            if (visited.contains(point)) firstVisitedTwice = new Point(this.x, this.y);
+            if (firstVisitedTwice == null) visited.add(point);
         }
     }
 }
