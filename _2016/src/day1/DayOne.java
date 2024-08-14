@@ -4,7 +4,7 @@ import java.util.List;
 
 import utils.InputParser;
 
-public class Main {
+public class DayOne {
     public static void main(String[] args) {
         List<String> inputs = new InputParser("_2016/src/day1/input.txt").getLinesSplitByComma();
         Mover mover = new Mover();
