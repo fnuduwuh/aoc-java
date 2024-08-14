@@ -4,10 +4,19 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static day1.Mover.Direction.*;
+
 public class Mover {
+    enum Direction {
+        NORTH,
+        EAST,
+        SOUTH,
+        WEST
+    }
+
     private int y = 0;
     private int x = 0;
-    private Direction direction = Direction.NORTH;
+    private Direction direction = NORTH;
     private final List<Point> visited = new ArrayList<>();
     private Point firstVisitedTwice;
 
@@ -29,17 +38,17 @@ public class Mover {
     public void changeDirection(String dir) {
         if (dir.equalsIgnoreCase("L")) {
             switch (direction) {
-                case NORTH -> direction = Direction.WEST;
-                case EAST -> direction = Direction.NORTH;
-                case SOUTH -> direction = Direction.EAST;
-                case WEST -> direction = Direction.SOUTH;
+                case NORTH -> direction = WEST;
+                case EAST -> direction = NORTH;
+                case SOUTH -> direction = EAST;
+                case WEST -> direction = SOUTH;
             }
         } else if (dir.equalsIgnoreCase("R")) {
             switch (direction) {
-                case NORTH -> direction = Direction.EAST;
-                case EAST -> direction = Direction.SOUTH;
-                case SOUTH -> direction = Direction.WEST;
-                case WEST -> direction = Direction.NORTH;
+                case NORTH -> direction = EAST;
+                case EAST -> direction = SOUTH;
+                case SOUTH -> direction = WEST;
+                case WEST -> direction = NORTH;
             }
         }
     }
