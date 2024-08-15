@@ -4,15 +4,18 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+// TODO set Grid as field in class to be able to switch between parts.
+// TODO move with try catch to catch outofbounds exception to generalize movement in different grids
 public class Keypad {
     private final Point current = new Point(1,1);
     private final List<String> keys = new ArrayList<>();
+    private final String[][] pad = {{"1","2","3"},{"4","5","6"},{"7","8","9"}};
 
     public void move(String[] steps) {
         for (String step : steps) {
             move(step);
         }
-        keys.add(String.valueOf(getKeyForCoordinates()));
+        keys.add(getKeyForCoordinates());
     }
 
     public String getKeys() {
@@ -52,10 +55,10 @@ public class Keypad {
         }
     }
 
-    private int getKeyForCoordinates() {
+    private String getKeyForCoordinates() {
         int x = Double.valueOf(this.current.getX()).intValue();
         int y = Double.valueOf(this.current.getY()).intValue();
-        int[][] pad = {{1,2,3},{4,5,6},{7,8,9}};
-        return pad[y][x];
+
+        return this.pad[y][x];
     }
 }
