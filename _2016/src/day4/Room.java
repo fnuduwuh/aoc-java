@@ -1,6 +1,10 @@
 package day4;
 
+import utils.StringHelper;
+
 import java.util.*;
+
+import static utils.StringHelper.ALPHABET_LIST;
 
 public class Room {
 
@@ -30,8 +34,6 @@ public class Room {
     }
 
     public String getDecryptedName() {
-        List<String> alphabet = List.of("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z");
-
         int placesForward = this.id % 26;
         StringBuilder decryptedName = new StringBuilder();
         for (int i = 0; i < indexStartOfId; i++) {
@@ -39,9 +41,9 @@ public class Room {
             if (character.equalsIgnoreCase("-")) {
                 decryptedName.append(" ");
             } else {
-                int alphabetIndex = alphabet.indexOf(character) + placesForward;
+                int alphabetIndex = ALPHABET_LIST.indexOf(character) + placesForward;
                 alphabetIndex = alphabetIndex > 25 ? alphabetIndex - 26 : alphabetIndex;
-                decryptedName.append(alphabet.get(alphabetIndex));
+                decryptedName.append(ALPHABET_LIST.get(alphabetIndex));
             }
         }
         return decryptedName.toString();
@@ -86,19 +88,10 @@ public class Room {
 
     private int getStartIndexForId() {
         for (int i = 0; i < allCharacters.length; i++) {
-            if (isNumeric(allCharacters[i])) {
+            if (StringHelper.isNumeric(allCharacters[i])) {
                 return i;
             }
         }
         throw new RuntimeException("No valid index found!");
-    }
-
-    private boolean isNumeric(String toCheck) {
-        try {
-            Integer.parseInt(toCheck);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
     }
 }
