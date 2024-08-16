@@ -15,6 +15,9 @@ public class DayFour {
             if (room.isValid()) {
                 sum.addAndGet(room.getId());
             }
+            if(room.getDecryptedName().contains("north")) {
+                System.out.println(room.getDecryptedName() + "-> ID: " + room.getId());
+            }
         });
         System.out.println("Sum of id's: " + sum);
     }

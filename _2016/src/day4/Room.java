@@ -4,23 +4,21 @@ import java.util.*;
 
 public class Room {
 
-    private String room;
-    private HashMap<String, Integer> lettersInName = new HashMap<>();
+    private final HashMap<String, Integer> lettersInName = new HashMap<>();
+    private final int indexStartOfId;
+    private final String[] allCharacters;
+    private final boolean valid;
+    private final String room;
     private int id;
     private String checksum;
-    private int indexStartOfId;
-    private int indexEndOfId;
-    private String[] allCharacters;
-    private boolean valid;
 
     public Room(String room) {
         this.room = room;
         allCharacters = room.split("");
-        setStartIndexForId();
-        setId();
+        indexStartOfId = getStartIndexForId();
+        setIdAndChecksum();
         parseName();
         this.valid = checkRoomIsValid();
-        System.out.println("Done");
     }
 
     public boolean isValid() {
@@ -29,6 +27,24 @@ public class Room {
 
     public int getId() {
         return this.id;
+    }
+
+    public String getDecryptedName() {
+        List<String> alphabet = List.of("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z");
+
+        int placesForward = this.id % 26;
+        StringBuilder decryptedName = new StringBuilder();
+        for (int i = 0; i < indexStartOfId; i++) {
+            String character = allCharacters[i];
+            if (character.equalsIgnoreCase("-")) {
+                decryptedName.append(" ");
+            } else {
+                int alphabetIndex = alphabet.indexOf(character) + placesForward;
+                alphabetIndex = alphabetIndex > 25 ? alphabetIndex - 26 : alphabetIndex;
+                decryptedName.append(alphabet.get(alphabetIndex));
+            }
+        }
+        return decryptedName.toString();
     }
 
     private boolean checkRoomIsValid() {
@@ -57,32 +73,32 @@ public class Room {
             }
         }
     }
-        private void setId () {
-            for (int i = 0; i < allCharacters.length; i++) {
-                if (allCharacters[i].equalsIgnoreCase("[")) {
-                    indexEndOfId = i;
-                    this.id = Integer.parseInt(room.substring(indexStartOfId, indexEndOfId));
-                    this.checksum = room.substring(i + 1, i + 6);
-                    return;
-                }
-            }
-        }
 
-        private void setStartIndexForId () {
-            for (int i = 0; i < allCharacters.length; i++) {
-                if (isNumeric(allCharacters[i])) {
-                    indexStartOfId = i;
-                    return;
-                }
+    private void setIdAndChecksum() {
+        for (int i = indexStartOfId; i < allCharacters.length; i++) {
+            if (allCharacters[i].equalsIgnoreCase("[")) {
+                this.id = Integer.parseInt(room.substring(indexStartOfId, i));
+                this.checksum = room.substring(i + 1, i + 6);
+                return;
             }
-        }
-
-        private boolean isNumeric (String toCheck){
-            try {
-                Integer.parseInt(toCheck);
-            } catch (NumberFormatException e) {
-                return false;
-            }
-            return true;
         }
     }
+
+    private int getStartIndexForId() {
+        for (int i = 0; i < allCharacters.length; i++) {
+            if (isNumeric(allCharacters[i])) {
+                return i;
+            }
+        }
+        throw new RuntimeException("No valid index found!");
+    }
+
+    private boolean isNumeric(String toCheck) {
+        try {
+            Integer.parseInt(toCheck);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+}
