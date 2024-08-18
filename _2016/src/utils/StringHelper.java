@@ -1,5 +1,6 @@
 package utils;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public class StringHelper {
@@ -14,5 +15,10 @@ public class StringHelper {
             return false;
         }
         return true;
+    }
+
+    public static String toHexString(byte[] bytes) {
+        BigInteger bi = new BigInteger(1, bytes);
+        return String.format("%0" + (bytes.length << 1) + "X", bi);
     }
 }
