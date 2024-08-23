@@ -7,13 +7,13 @@ import java.util.Map;
 public class CharacterFinder {
     private final List<String> lines;
     private final StringBuilder errorCorrectedMessage = new StringBuilder();
-    private final StringBuilder errorCorrectedMessage2 = new StringBuilder();
+    private final StringBuilder errorCorrectedMessagePart2 = new StringBuilder();
 
     public CharacterFinder(List<String> lines) {
         this.lines = lines;
     }
 
-    public void findMostCommon() {
+    public void findMostAndLeastCommonCharacters() {
         int numberOfColumns = lines.getFirst().length();
 
         for (int i = 0; i < numberOfColumns; i++) {
@@ -43,11 +43,11 @@ public class CharacterFinder {
                     leastOccuringChar = entry.getKey();
                 }
             }
-            errorCorrectedMessage2.append(leastOccuringChar);
+            errorCorrectedMessagePart2.append(leastOccuringChar);
         }
     }
     public void printErrorCorrectedMessage() {
         System.out.println(this.errorCorrectedMessage);
-        System.out.println(this.errorCorrectedMessage2);
+        System.out.println(this.errorCorrectedMessagePart2);
     }
 }
