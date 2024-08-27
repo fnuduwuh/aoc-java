@@ -7,7 +7,7 @@ import java.util.List;
 public class DayEight {
     public static void main(String[] args) {
         List<String> lines = new InputParser("_2016/src/day8/input.txt").getLines();
-        LCD screen = new LCD(7, 3);
+        LCD screen = new LCD(50, 6);
         for (String line : lines) {
             if (line.startsWith("rect")) {
                 int[] nums = getRect(line);

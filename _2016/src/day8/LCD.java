@@ -13,7 +13,7 @@ public class LCD {
         screen = new String[height][length];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
-                screen[i][j] = ".";
+                screen[i][j] = " ";
             }
         }
     }
@@ -21,7 +21,7 @@ public class LCD {
     public void addRectangle(int length, int height) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
-                screen[i][j] = "x";
+                screen[i][j] = "#";
             }
         }
     }
@@ -29,28 +29,28 @@ public class LCD {
     public void rotateColumn(int column, int shifts) {
         Map<Point, Integer> points = new HashMap<>();
         for (int i = 0; i < screen.length; i++) {
-            shifts = shifts + i >= screen.length ? i + shifts - screen.length : shifts;
+            int newIndex = shifts + i >= screen.length ? i + shifts - screen.length : i + shifts;
 
-            if (screen[i][column].equalsIgnoreCase("x")) {
-                points.put(new Point(i, column), shifts);
-                screen[i][column] = ".";
+            if (screen[i][column].equalsIgnoreCase("#")) {
+                points.put(new Point(i, column), newIndex);
+                screen[i][column] = " ";
             }
         }
         int finalShifts = shifts;
-        points.forEach((key, value) -> screen[key.x + value][key.y] = "x");
+        points.forEach((key, value) -> screen[value][key.y] = "#");
     }
 
     public void rotateRow(int row, int shifts) {
-        List<Point> points = new ArrayList<>();
+        Map<Point, Integer> points = new HashMap<>();
         for (int i = 0; i < screen[0].length; i++) {
-            shifts = shifts + i >= screen[0].length ? i + shifts - screen[0].length : i + shifts;
-            if (screen[row][i].equalsIgnoreCase("x")) {
-                screen[row][i] = ".";
-                points.add(new Point(row, i));
+            int newIndex = shifts + i >= screen[0].length ? i + shifts - screen[0].length : i + shifts;
+            if (screen[row][i].equalsIgnoreCase("#")) {
+                screen[row][i] = " ";
+                points.put(new Point(row, i), newIndex);
             }
         }
         int finalShifts = shifts;
-        points.forEach(point -> screen[point.x][point.y+finalShifts] = "x");
+        points.forEach((key, value) -> screen[key.x][value] = "#");
     }
 
     public void printScreen() {
