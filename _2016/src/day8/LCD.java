@@ -1,19 +1,17 @@
 package day8;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LCD {
-    private String[][] screen;
+    private final String[][] screen;
 
     public LCD(int length, int height) {
         screen = new String[height][length];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
-                screen[i][j] = " ";
+                screen[i][j] = ".";
             }
         }
     }
@@ -21,7 +19,7 @@ public class LCD {
     public void addRectangle(int length, int height) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
-                screen[i][j] = "#";
+                screen[i][j] = "o";
             }
         }
     }
@@ -31,26 +29,37 @@ public class LCD {
         for (int i = 0; i < screen.length; i++) {
             int newIndex = shifts + i >= screen.length ? i + shifts - screen.length : i + shifts;
 
-            if (screen[i][column].equalsIgnoreCase("#")) {
+            if (screen[i][column].equalsIgnoreCase("o")) {
                 points.put(new Point(i, column), newIndex);
-                screen[i][column] = " ";
+                screen[i][column] = ".";
             }
         }
-        int finalShifts = shifts;
-        points.forEach((key, value) -> screen[value][key.y] = "#");
+        points.forEach((key, value) -> screen[value][key.y] = "o");
     }
 
     public void rotateRow(int row, int shifts) {
         Map<Point, Integer> points = new HashMap<>();
         for (int i = 0; i < screen[0].length; i++) {
             int newIndex = shifts + i >= screen[0].length ? i + shifts - screen[0].length : i + shifts;
-            if (screen[row][i].equalsIgnoreCase("#")) {
-                screen[row][i] = " ";
+            if (screen[row][i].equalsIgnoreCase("o")) {
+                screen[row][i] = ".";
                 points.put(new Point(row, i), newIndex);
             }
         }
-        int finalShifts = shifts;
-        points.forEach((key, value) -> screen[key.x][value] = "#");
+        points.forEach((key, value) -> screen[key.x][value] = "o");
+    }
+
+    public int countPixels() {
+        int pixels = 0;
+        for (String[] rows : screen) {
+            for (String cell : rows) {
+                if (cell.equalsIgnoreCase("o")) {
+                    pixels++;
+                }
+            }
+
+        }
+        return pixels;
     }
 
     public void printScreen() {
