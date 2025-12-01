@@ -25,22 +25,31 @@ public class Day1 extends Day {
         for (var line : this.input) {
             var direction = line.substring(0, 1);
             var amountOfClicks = Integer.parseInt(line.substring(1));
-            if (amountOfClicks > 100) {
-                timesPastZero += amountOfClicks / 100;
-                amountOfClicks %= 100;
-            }
+
+            // First calculate possible full rotations
+            if (amountOfClicks > 100) timesPastZero += amountOfClicks / 100;
+            // Use remainder of amountOfClicks to determine if zero or 99 is passed (again)
+            amountOfClicks %= 100;
+
             if (direction.equalsIgnoreCase("L")) {
-                if (dial - amountOfClicks <= 0 && dial != 0) {
-                    timesPastZero++;
-                }
-                dial = dial - amountOfClicks < 0 ? dial - amountOfClicks + 100 : dial - amountOfClicks;
+                timesPastZero += leftPastZero(dial, amountOfClicks);
+                dial -= amountOfClicks;
             } else {
-                if (dial + amountOfClicks > 99) {
-                    timesPastZero++;
-                }
-                dial = (dial + amountOfClicks) % 100;
+                timesPastZero += rightPastZero(dial, amountOfClicks);
+                dial += amountOfClicks;
             }
+
+            // Use remainder operation to correct for position if zero or 99 was passed
+            dial = ((dial % 100) + 100) % 100;
         }
         return String.valueOf(timesPastZero);
+    }
+
+    private int leftPastZero(int dial, int clicks) {
+        return dial - clicks <= 0 && dial != 0 ? 1 : 0;
+    }
+
+    private int rightPastZero(int dial, int clicks) {
+        return dial + clicks > 99 ? 1 : 0;
     }
 }
