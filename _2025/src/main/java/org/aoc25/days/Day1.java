@@ -8,13 +8,11 @@ public class Day1 extends Day {
         var dial = 50;
         var timesExactlyZero = 0;
         for (var line : this.input) {
-            var direction = line.substring(0, 1);
             var amountOfClicks = Integer.parseInt(line.substring(1));
-            if (direction.equalsIgnoreCase("L")) {
-                dial = (dial - amountOfClicks) % -100;
-            } else {
-                dial = (dial + amountOfClicks) % 100;
-            }
+            dial = line.substring(0,1).equalsIgnoreCase("L")
+                    ? dial - amountOfClicks
+                    : dial + amountOfClicks;
+            dial %= 100;
             if (dial == 0) timesExactlyZero++;
         }
         return String.valueOf(timesExactlyZero);
