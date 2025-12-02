@@ -1,6 +1,7 @@
 package org.aoc25;
 
 import org.aoc25.days.Day1;
+import org.aoc25.days.Day2;
 
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ public class Main {
 
         switch (scanner.nextInt()) {
             case 1 -> new Day1().printSolutions();
+            case 2 -> new Day2().printSolutions();
         }
     }
 }
